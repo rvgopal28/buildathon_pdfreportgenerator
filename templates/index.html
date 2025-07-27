@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Draftify.ai - PDF Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="{{ url_for('static', filename='scripts.js') }}" defer></script>
+    
+    <style>
+            body { font-family: 'Arial', sans-serif; margin: 40px; color: #333; }
+            .header {
+                background-color: {{ brand_color }};
+                padding: 20px;
+                color: white;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .header-logo {
+                width: 100px;
+                height: auto;
+            }
+            .header-title {
+                flex-grow: 1;
+                text-align: right;
+                font-size: 24px;
+                font-weight: bold;
+            }
+            .section { margin-top: 30px; }
+            .section-title { font-weight: bold; font-size: 20px; margin-bottom: 10px; border-bottom: 2px solid {{ brand_color }}; padding-bottom: 5px; }
+            .content { line-height: 1.6; }
+            ul, ol { margin-left: 20px; }
+            .footer { margin-top: 50px; font-size: 12px; color: #777; text-align: center; border-top: 2px solid {{ brand_color }}; padding-top: 10px; }
+        </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+       <div class="d-flex align-items-center justify-content-center mb-5 py-3 px-4 rounded shadow-sm" style="background: linear-gradient(135deg, #8b1e1e 0%, #ad1a1a 100%); color: white;">
+            <div class="me-3 d-flex align-items-center justify-content-center" style="background: rgba(255,255,255,0.1); border-radius: 12px; padding: 10px;">
+                <img src="static/uploads/logo.png" alt="Draftify.ai Logo" style="height: 80px; width: auto;">
+            </div>
+            <h1 class="mb-0 fw-bold" style="font-size: 1.8rem;">Smart Proposal Generator</h1>
+        </div>
+        <div class="card shadow-sm p-4 mb-4">
+            <h4 class="mb-3">Project Details</h4>
+            <form id="draftForm" enctype="multipart/form-data">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Client Name</label>
+                        <input type="text" name="client_name" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Project Title</label>
+                        <input type="text" name="project_title" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="form-label">Scope of Work</label>
+                    <textarea name="scope_of_work" id="scope_of_work" class="form-control" rows="4"></textarea>
+                </div>
+
+                <div class="mt-4">
+                    <button type="button" class="btn btn-outline-primary" id="aiGenerateAll">
+                        ✨ AI Generate Document Sections
+                    </button>
+                    <span id="aiStatus" class="text-muted ms-3"></span>
+                </div>
+
+                <div class="card shadow-sm p-4 mt-5">
+                    <h4 class="mb-3">Branding & Deliverables</h4>
+
+                    <div class="mb-3">
+                        <label class="form-label">Deliverables</label>
+                        <textarea name="deliverables" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Notes / Remarks</label>
+                        <textarea name="remarks" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Date</label>
+                            <input type="date" name="date" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Brand Color</label>
+                            <input type="color" name="brand_color" class="form-control form-control-color" value="#000000">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Upload Logo</label>
+                            <input type="file" name="logo" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-success btn-lg">🚀 Generate PDF</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- PDF Live Preview Pane -->
+        <div class="card shadow-sm p-4 mt-5">
+            <h4 class="mb-3">📄 Live PDF Preview</h4>
+            <iframe id="pdfPreview" class="w-100 d-none" style="height: 600px; border: 1px solid #ccc;"></iframe>
+        </div>
+    </div>
+</body>
+</html>
